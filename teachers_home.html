@@ -13,6 +13,63 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <title>Teachers Home Page</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+      }
+
+      #app {
+          margin-top: 20px;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .bg-blue-grey {
+          background-color: #607d8b;
+          color: #fff;
+      }
+
+      .pa-2 {
+          padding: 8px;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+      }
+
+      th, td {
+          padding: 10px;
+          text-align: center;
+          border-bottom: 1px solid #ddd;
+      }
+
+      th {
+          background-color: #f2f2f2;
+      }
+
+      tr:hover {
+          background-color: #f5f5f5;
+      }
+
+      .v-btn {
+          background-color: #607d8b;
+          color: #fff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          text-transform: uppercase;
+      }
+
+      .v-btn:hover {
+          background-color: #455a64;
+      }
+  </style>
 </head>
 <body>
     <div id = "app">
@@ -78,10 +135,10 @@
                         <div v-if="user">
                           <v-btn @click="google_logout()" v-if="user"> Logout</v-btn>   
                           <div v-for="(s) in students">
-                            <v-btn v-if="user.email == s.email"><a href="students_home.html">Next for students</a></v-btn>
+                            <!-- <v-btn v-if="user.email == s.email"><a href="students_home.html"></a></v-btn> -->
                           </div> 
                           <div v-for="(t) in teachers">
-                            <v-btn v-if="user.email == t.email"><a href="teachers_home.html">Next for Teachers</a></v-btn>
+                            <!-- <v-btn v-if="user.email == t.email"><a href="teachers_home.html"></a></v-btn> --></a>
                           </div>   
                         </div>
                              
@@ -193,7 +250,7 @@
           data() {
             return {
               title: "Project:  เช็คชื่อจากฐานข้อมูล",
-              footer: "รายชื่อ  1.643020632-1 ภัครพงศ์ เจริญผล 2.643021319-0นางสาวทอเนีย ทะเฮรี 3.643021330-2	นางสาวพัชราภรณ์ เสมียนชัย 4.649021425-1 นางสาวปิยะพร ภูแต้มนิล ",
+              footer: "รายชื่อ  1.643020659-1 อันดา อินทะเนตร 2.643020639-7 รัตนพงษ์ ภูลับดวง 3.643020642-8 วริศรา พันธุ์รอด 4.643021438-2 นางสาวสาริศา ทั่งทอง",
               students: [],
               editstd: {},
               editquiz: {},
@@ -326,12 +383,14 @@
               provider.addScope("email");
               firebase.auth().signInWithPopup(provider);
             },
-            google_logout(){
+            google_logout() {
               if(confirm("Are you sure?")){
-                firebase.auth().signOut();
-                location.reload();
+                firebase.auth().signOut().then(() => {
+                  window.location.href = "index.html";
+                });
               }
             },
+            
             getstudent(email){
               db.collection("students")
                 .where("email","==",email)

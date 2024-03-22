@@ -13,6 +13,38 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <title>Students Home Page</title>
+    <style>
+      /* เพิ่มคลาส CSS เพื่อปรับแต่งตาราง */
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          border: 1px solid #ddd;
+      }
+
+      th, td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+      }
+
+      th {
+          background-color: #f2f2f2;
+      }
+
+      tr:hover {
+          background-color: #f5f5f5;
+      }
+      .login-button {
+        background-color: #5d5ff5;
+        /* สีของปุ่มล็อกอิน */
+        color: white;
+      }
+  
+      .login-button:hover {
+        background-color: #53c0f7;
+        /* เมื่อเม้าส์วางที่ปุ่มล็อกอิน */
+      }
+  </style>
 </head>
 <body>
     <div id = "app">
@@ -57,20 +89,26 @@
     
                   
                     <v-card-actions>
-                        <!--<v-btn @click="readData()">Read Data (get)</v-btn>
-                        <v-btn @click="autoRead()">Auto Read (onSnapshot)</v-btn>-->
+                        <!--<v-btn @click="readData()">Read Data (get)</v-btn>-->
+                        <v-btn @click="autoRead()">Auto Read (onSnapshot)</v-btn>
                         <v-btn @click="sendob()">คลิกเพื่อเช็คชื่อของคุณ</v-btn>
                         <v-btn><a href="project_vue.html"></a> กลับ</v-btn>
                     </v-card-actions>
                     
                    
     
-                    <v-card-actions>
-                        <v-btn @click="google_login()" v-if="!user"> Login</v-btn>
-                        <div v-if="user">
-                          <v-btn @click="google_logout()" v-if="user"> Logout</v-btn>   
+                    <v-card-actions class="justify-center">
+                      <v-btn @click="google_login()" v-if="!user" class="login-button">Login</v-btn>
+          
+                      <div v-if="user">
+                        <v-btn @click="google_logout()" v-if="user" class="login-button"> Logout</v-btn>
+                        <!-- <div v-for="(s) in students">
+                          <v-btn v-if="user.email == s.email"><a href="students_home.html">Next for students</a></v-btn>
                         </div>
-                             
+                        <div v-for="(t) in teachers">
+                          <v-btn v-if="user.email == t.email"><a href="teachers_home.html">Next for Teachers</a></v-btn>
+                        </div> -->
+                      </div>
                     </v-card-actions>
                 </v-card>
                
@@ -100,7 +138,7 @@
           data() {
             return {
               title: "Project:  เช็คชื่อจากฐานข้อมูล",
-              footer: "รายชื่อ  1.643020632-1 ภัครพงศ์ เจริญผล 2.643021319-0นางสาวทอเนีย ทะเฮรี 3.643021330-2	นางสาวพัชราภรณ์ เสมียนชัย 4.649021425-1 นางสาวปิยะพร ภูแต้มนิล ",
+              footer: "รายชื่อ  1.643020659-1 อันดา อินทะเนตร 2.643020639-7 รัตนพงษ์ ภูลับดวง 3.643020642-8 วริศรา พันธุ์รอด 4.643021438-2 นางสาวสาริศา ทั่งทอง",
               students: [],
               editstd: {},
               editquiz: {},
@@ -216,12 +254,14 @@
               provider.addScope("email");
               firebase.auth().signInWithPopup(provider);
             },
-            google_logout(){
+            google_logout() {
               if(confirm("Are you sure?")){
-                firebase.auth().signOut();
-                location.reload();
+                firebase.auth().signOut().then(() => {
+                  window.location.href = "index.html";
+                });
               }
             },
+            
             getstudent(email){
               db.collection("students")
                 .where("email","==",email)
