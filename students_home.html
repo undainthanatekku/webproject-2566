@@ -47,15 +47,25 @@
       background-color: #53c0f7;
       /* เมื่อเม้าส์วางที่ปุ่มล็อกอิน */
     }
-    .login-button {
+
+    /* เพิ่มคลาส CSS เพื่อปรับสีพื้นหลังของการ์ด */
+    .bg-blue-grey {
       background-color: #5d5ff5;
-      /* สีของปุ่มล็อกอิน */
+      /* สีฟ้า */
       color: white;
+      /* สีข้อความ */
     }
 
-    .login-button:hover {
-      background-color: #53c0f7;
-      /* เมื่อเม้าส์วางที่ปุ่มล็อกอิน */
+    /* เพิ่มคลาส CSS เพื่อปรับสีของเส้นขอบ */
+    .blue-border {
+      border: 1px solid #5d5ff5;
+      /* สีฟ้า */
+    }
+
+    /* เพิ่มคลาส CSS เพื่อปรับสีข้อความ */
+    .white-text {
+      color: white;
+      /* สีข้อความ */
     }
   </style>
 </head>
@@ -65,7 +75,7 @@
     <v-app>
       <v-container>
         <v-card>
-          <v-card-title class="bg-blue-grey">{{title}}</v-card-title>
+          <v-card-title class="bg-blue-grey">Students Home Page</v-card-title>
           <v-card-actions>
             <template v-if="user">
               <div class="pa-2">
@@ -105,7 +115,7 @@
                 </template>
               </tr>
             </tbody>
-            
+
           </table>
 
           <v-card v-if="editmode==='แบบฟอร์ม'">
@@ -118,13 +128,13 @@
                 <h2>{{ q.quiz_name }}</h2>
                 <p>จงเติมคำตอบลงช่องว่าง:</p>
                 <v-text-field v-model="q.answer" :label="'คำตอบ ' + (index + 1)"></v-text-field>
-            </div>
-            
+              </div>
+
 
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="saveqiz_back()">Save</v-btn>
-              <v-btn @click="editmode=0">Cancel</v-btn>
+              <v-btn @click="saveqiz_back()" class="login-button">Save</v-btn>
+              <v-btn @click="editmode=0" class="login-button">Cancel</v-btn>
             </v-card-actions>
           </v-card>
 
@@ -132,13 +142,13 @@
           <v-card-actions class="blue lighten-4">
             <!--<v-btn @click="readData()">Read Data (get)</v-btn>-->
             <!--<v-btn @click="autoRead()" class="login-button" >Auto Read (onSnapshot)</v-btn>-->
-            <v-btn @click="sendob()" class="login-button" >คลิกเพื่อเช็คชื่อของคุณ</v-btn>
+            <v-btn @click="sendob()" class="login-button">คลิกเพื่อเช็คชื่อของคุณ</v-btn>
             <v-btn class="login-button" dark outlined href="index.html">
-                <span class="white--text">กลับ</span>
+              <span class="white--text">กลับ</span>
             </v-btn>
-        </v-card-actions>
-        
-        
+          </v-card-actions>
+
+
 
 
 
@@ -214,7 +224,7 @@
             });
             this.teachers = teacherslist;
           });
-          db.collection("students")
+        db.collection("students")
           .get()
           .then((querySnapshot) => {
             var stdlist = [];
