@@ -67,6 +67,27 @@
       color: white;
       /* สีข้อความ */
     }
+    .wallpaper-register {
+      background: url(https://images.pexels.com/photos/533671/pexels-photo-533671.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center;
+      background-size: cover;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      z-index: -1;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+    }
+
+    .main-image {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
   </style>
 </head>
 
@@ -74,6 +95,24 @@
   <div id="app">
     <v-app>
       <v-container>
+        <v-card-actions>
+          <div class="logo-container">
+            <img src="logo.jpg" alt="Logo" width="100">
+            
+          </div>
+          <div class="flex-grow-1"></div> <!-- สร้างพื้นที่เพิ่มเติมให้ปุ่มถูกจัดตำแหน่งทางขวา -->
+          <v-btn @click="google_login()" v-if="!user" class="login-button">Login</v-btn>
+          
+          <div v-if="user">
+          <v-btn @click="google_logout()" class="login-button">Logout</v-btn>
+         
+          </div>
+        </v-card-actions>
+        
+        <!-- Image Container -->
+        <div class="image-container">
+          <img class="main-image" src="image.png" alt="Main Image">
+        </div>
         <v-card>
           <v-card-title class="bg-blue-grey">Students Home Page</v-card-title>
           <v-card-actions>
@@ -152,19 +191,7 @@
 
 
 
-          <v-card-actions class="justify-center">
-            <v-btn @click="google_login()" v-if="!user" class="login-button">Login</v-btn>
-
-            <div v-if="user">
-              <v-btn @click="google_logout()" v-if="user" class="login-button"> Logout</v-btn>
-              <!-- <div v-for="(s) in students">
-                          <v-btn v-if="user.email == s.email"><a href="students_home.html">Next for students</a></v-btn>
-                        </div>
-                        <div v-for="(t) in teachers">
-                          <v-btn v-if="user.email == t.email"><a href="teachers_home.html">Next for Teachers</a></v-btn>
-                        </div> -->
-            </div>
-          </v-card-actions>
+          
         </v-card>
 
 
